@@ -1,0 +1,12 @@
+{
+    "name": "patreon/patreon",
+    "description": "Interact with the Patreon API via OAuth",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Kettler",
+            "email": "david@patreon.com"
+        }
+    ],
+    "require": {}
+}
