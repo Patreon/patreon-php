@@ -1,7 +1,7 @@
 # patreon-php
 Interact with the Patreon API via OAuth.
 
-Get the plugin from [Packagist](https://rubygems.org/gems/patreon)
+Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
 
 Step 1. Get your client_id and client_secret
 ---
