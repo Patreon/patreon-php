@@ -2,7 +2,7 @@
     "name": "patreon/patreon",
     "description": "Interact with the Patreon API via OAuth",
     "license": "MIT",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "authors": [
         {
             "name": "David Kettler",
