@@ -16,12 +16,14 @@ e.g., in a PHP page
 ```php
 <?php
 
-require("src/Patreon/OAuth.php");
-require("src/Patreon/API.php");
+require_once('vendor/patreon/patreon/src/patreon.php');
 
-$client_id = null      // Replace with your data
-$client_secret = null  // Replace with your data
-$creator_id = null     // Replace with your data
+use Patreon\API;
+use Patreon\OAuth;
+
+$client_id = null;      // Replace with your data
+$client_secret = null;  // Replace with your data
+$creator_id = null;     // Replace with your data
 
 $oauth_client = new Patreon\OAuth($client_id, $client_secret);
 $tokens = $oauth_client->get_tokens($_GET['code'], "http://localhost:5000/oauth/redirect");
