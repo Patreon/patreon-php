@@ -17,13 +17,12 @@ class API {
   }
 
   private function __get_json($suffix) {
-    $api_endpoint = sprintf("https://api.patreon.com/oauth2/api/%1$s", $suffix);
+    $api_endpoint = "https://api.patreon.com/oauth2/api/" . $suffix;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_endpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_GET, 1);
-    $authorization_header = sprintf("Authorization: Bearer %1$s", $this->access_token);
-    $headers = array($authorization_header);
+    $authorization_header = "Authorization: Bearer " . $this->access_token;
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array($authorization_header));
     return json_decode(curl_exec($ch), true);
   }
 }
