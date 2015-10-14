@@ -13,7 +13,7 @@ class API {
   }
 
   public function fetch_campaign_and_patrons() {
-    return $this->__get_json("current_user/campaign?include=rewards,creator,goals,pledges");
+    return $this->__get_json("current_user/campaigns?include=rewards,creator,goals,pledges");
   }
 
   private function __get_json($suffix) {
