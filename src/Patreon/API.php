@@ -16,6 +16,10 @@ class API {
     return $this->__get_json("current_user/campaigns?include=rewards,creator,goals,pledges");
   }
 
+  public function fetch_campaign() {
+    return $this->__get_json("current_user/campaigns?include=rewards,creator,goals");
+  }
+
   private function __get_json($suffix) {
     $api_endpoint = "https://api.patreon.com/oauth2/api/" . $suffix;
     $ch = curl_init();
