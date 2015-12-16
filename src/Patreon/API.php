@@ -20,6 +20,15 @@ class API {
     return $this->__get_json("current_user/campaigns?include=rewards,creator,goals");
   }
 
+  public function fetch_page_of_pledges($campaign_id, $page_size, $cursor = null) {
+    $url = "campaigns/{$campaign_id}/pledges?page%5Bcount%5D={$page_size}";
+    if ($cursor != null) {
+      $escaped_cursor = urlencode($cursor);
+      $url = $url . "&page%5Bcursor%5D={$escaped_cursor}";
+    }
+    return $this->__get_json($url);
+  }
+
   private function __get_json($suffix) {
     $api_endpoint = "https://api.patreon.com/oauth2/api/" . $suffix;
     $ch = curl_init();
