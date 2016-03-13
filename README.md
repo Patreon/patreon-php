@@ -5,7 +5,7 @@ Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
 
 Step 1. Get your client_id and client_secret
 ---
-Visit the [OAuth Documentation Page](patreon.com/oauth2/documentation)
+Visit the [OAuth Documentation Page](https://www.patreon.com/oauth2/documentation)
 while logged in as a Patreon creator to register your client.
 
 This will provide you with a `client_id` and a `client_secret`.
@@ -51,4 +51,6 @@ if ($included != null) {
 }
 
 // use $user, $pledge, and $campaign as desired
+
+?>
 ```
