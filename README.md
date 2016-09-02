@@ -26,6 +26,8 @@ $client_secret = null;  // Replace with your data
 $creator_id = null;     // Replace with your data
 
 $oauth_client = new Patreon\OAuth($client_id, $client_secret);
+
+// Replace http://localhost:5000/oauth/redirect with your own uri
 $tokens = $oauth_client->get_tokens($_GET['code'], "http://localhost:5000/oauth/redirect");
 $access_token = $tokens['access_token'];
 
