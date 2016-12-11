@@ -20,7 +20,7 @@ class OAuth {
     ));
   }
 
-  public function refresh_token($refresh_token) {
+  public function refresh_token($refresh_token, $redirect_uri = null) {
     return $this->__update_token(array(
         "grant_type" => "refresh_token",
         "refresh_token" => $refresh_token,
