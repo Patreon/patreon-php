@@ -41,6 +41,7 @@ if ($campaign_response['errors']) {
         echo "Can't recover from access failure\n";
         print_r($tokens);
     }
+    return;
 }
 
 // get page after page of pledge data
