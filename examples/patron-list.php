@@ -26,7 +26,11 @@ $api_client = new Patreon\API($access_token);
 $campaign_response = $api_client->fetch_campaign();
 
 // If the token doesn't work, get a newer one
-if ($campaign_response['errors']) {
+if ($campaign_response->has('errors')) {
+    echo "Got an error\n";
+    print_r($campaign_response->get('errors.0')->asArray());
+
+    echo "Refreshing tokens\n";
     // Make an OAuth client
     // Get your Client ID and Secret from https://www.patreon.com/platform/documentation/clients
     $client_id = null;
@@ -38,43 +42,41 @@ if ($campaign_response['errors']) {
         $access_token = $tokens['access_token'];
         echo "Got a new access_token! Please overwrite the old one in this script with: " . $access_token . " and try again.";
     } else {
-        echo "Can't recover from access failure\n";
+        echo "Can't fetch new tokens. Please debug, or write in to Patreon support.\n";
         print_r($tokens);
     }
     return;
 }
 
+if (!$campaign_response->has('data.0.id')) {
+    echo "No campaign found. Please check you have an access token for a Patreon creator.\n";
+}
+
 // get page after page of pledge data
-$campaign_id = $campaign_response['data'][0]['id'];
+$campaign_id = $campaign_response->get('data.0.id');
 $cursor = null;
 while (true) {
     $pledges_response = $api_client->fetch_page_of_pledges($campaign_id, 25, $cursor);
-    // get all the users in an easy-to-lookup way
-    $user_data = [];
-    foreach ($pledges_response['included'] as $included_data) {
-        if ($included_data['type'] == 'user') {
-            $user_data[$included_data['id']] = $included_data;
-        }
-    }
     // loop over the pledges to get e.g. their amount and user name
-    foreach ($pledges_response['data'] as $pledge_data) {
-        $pledge_amount = $pledge_data['attributes']['amount_cents'];
-        $patron_id = $pledge_data['relationships']['patron']['data']['id'];
-        $patron_full_name = $user_data[$patron_id]['attributes']['full_name'];
+    foreach ($pledges_response->get('data')->getKeys() as $pledge_data_key) {
+        $pledge_data = $pledges_response->get('data')->get($pledge_data_key);
+        $pledge_amount = $pledge_data->attribute('amount_cents');
+        $patron = $pledge_data->relationship('patron')->resolve($pledges_response);
+        $patron_full_name = $patron->attribute('full_name');
         echo $patron_full_name . " is pledging " . $pledge_amount . " cents.\n";
     }
     // get the link to the next page of pledges
-    $next_link = $pledges_response['links']['next'];
-    if (!$next_link) {
+    if (!$pledges_response->has('links.next')) {
         // if there's no next page, we're done!
         break;
     }
+    $next_link = $pledges_response->get('links.next');
     // otherwise, parse out the cursor param
     $next_query_params = explode("?", $next_link)[1];
     parse_str($next_query_params, $parsed_next_query_params);
     $cursor = $parsed_next_query_params['page']['cursor'];
 }
 
-echo "Done!";
+echo "Done!\n";
 
 ?>
