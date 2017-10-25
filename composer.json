@@ -10,7 +10,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "art4/json-api-client": "0.9.*"
     },
     "autoload": {
         "psr-0": {

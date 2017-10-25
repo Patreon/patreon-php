@@ -24,6 +24,10 @@ _(If you are doing something other than the "Log In with Patreon" flow, please s
 ```php
 <?php
 
+/*
+ * Use the following,
+ * or if you installed via Composer, it should already be required via autoloader
+ */
 require_once('vendor/patreon/patreon/src/patreon.php');
 
 use Patreon\API;
@@ -31,30 +35,43 @@ use Patreon\OAuth;
 
 $client_id = null;      // Replace with your data
 $client_secret = null;  // Replace with your data
-$creator_id = null;     // Replace with your data
 
 $oauth_client = new Patreon\OAuth($client_id, $client_secret);
 
 // Replace http://localhost:5000/oauth/redirect with your own uri
 $redirect_uri = "http://localhost:5000/oauth/redirect";
-// Make sure that you're using this snippet as Step 2 of the OAuth flow: https://www.patreon.com/platform/documentation/oauth
-// so that you have the 'code' query parameter.
+/*
+ * Make sure that you're using this snippet as Step 2 of the OAuth flow: https://www.patreon.com/platform/documentation/oauth
+ * so that you have the 'code' query parameter.
+ */
 $tokens = $oauth_client->get_tokens($_GET['code'], $redirect_uri);
 $access_token = $tokens['access_token'];
 $refresh_token = $tokens['refresh_token'];
 
 $api_client = new Patreon\API($access_token);
 $patron_response = $api_client->fetch_user();
-$patron = $patron_response['data'];
-$included = $patron_response['included'];
+/*
+ * The $patron_response is now a [art4/json-api-client/Document](https://github.com/Art4/json-api-client/blob/master/docs/objects-document.md)
+ * You can access its primary data via ->get('data')
+ */
+$patron = $patron_response->get('data');
+// Can now check attributes, e.g. $patron->attribute('full_name');
 $pledge = null;
-if ($included != null) {
-  foreach ($included as $obj) {
-    if ($obj["type"] == "pledge" && $obj["relationships"]["creator"]["data"]["id"] == $creator_id) {
-      $pledge = $obj;
-      break;
-    }
-  }
+/*
+ * Given a resource in the document, you can access its relationships with ->relationship->($relationship_name)
+ * or check for a relationship's existence with ->has('relationships.relationship_name')
+ */
+if ($user->has('relationships.pledges')) {
+    /*
+     * To look up the full resource that the relationship is referencing,
+     * we have extended [art4/json-api-client/ResourceIdentifier](https://github.com/Art4/json-api-client/blob/master/docs/objects-resource-identifier.md)
+     * with the `->resolve` method.
+     * You pass in the original response document, and you get back a full resource,
+     * with attributes, relationships, etc.
+     */
+    $pledges = $user->relationship('pledges')->resolve($user_response);
+    $pledge = $pledges[0];
+    // Can now check attributes, e.g. $pledge->attribute('amount_cents');
 }
 
 /*
