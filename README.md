@@ -70,8 +70,7 @@ if ($user->has('relationships.pledges')) {
      * You pass in the original response document, and you get back a full resource,
      * with attributes, relationships, etc.
      */
-    $pledges = $user->relationship('pledges')->resolve($user_response);
-    $pledge = $pledges[0];
+    $pledge = $user->relationship('pledges')->get(0)->resolve($user_response);
     // Can now check attributes, e.g. $pledge->attribute('amount_cents');
 }
 
