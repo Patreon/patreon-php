@@ -1,0 +1,5 @@
+# 0.3.0 (in-progress)
+
+* Improve documentation in the README
+* Fix snippet samples
+* Add User-Agent string for correct platform attribution
