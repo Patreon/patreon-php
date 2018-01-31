@@ -4,8 +4,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "David Kettler",
-            "email": "david@patreon.com"
+            "name": "Patreon",
+            "email": "platform-team@patreon.com"
         }
     ],
     "minimum-stability": "dev",

@@ -1,4 +1,4 @@
-# 0.3.0 (in-progress)
+# 0.3.0
 
 * Improve documentation in the README
 * Fix snippet samples
