@@ -37,7 +37,7 @@ use Patreon\OAuth;
 $client_id = null;      // Replace with your data
 $client_secret = null;  // Replace with your data
 
-$oauth_client = new Patreon\OAuth($client_id, $client_secret);
+$oauth_client = new OAuth($client_id, $client_secret);
 
 // Replace http://localhost:5000/oauth/redirect with your own uri
 $redirect_uri = "http://localhost:5000/oauth/redirect";
@@ -49,7 +49,7 @@ $tokens = $oauth_client->get_tokens($_GET['code'], $redirect_uri);
 $access_token = $tokens['access_token'];
 $refresh_token = $tokens['refresh_token'];
 
-$api_client = new Patreon\API($access_token);
+$api_client = new API($access_token);
 $patron_response = $api_client->fetch_user();
 /*
  * The $patron_response is now a [art4/json-api-client/Document](https://github.com/Art4/json-api-client/blob/master/docs/objects-document.md)
