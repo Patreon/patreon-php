@@ -63,7 +63,7 @@ class API {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_endpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT, "Patreon-PHP, version 0.3.0, platform ".php_uname('s').'-'.php_uname('r'));
+    curl_setopt($ch, CURLOPT_USERAGENT, "Patreon-PHP, version 0.3.1, platform ".php_uname('s').'-'.php_uname('r'));
     $authorization_header = "Authorization: Bearer " . $this->access_token;
     curl_setopt($ch, CURLOPT_HTTPHEADER, array($authorization_header));
     return $ch;
