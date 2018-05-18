@@ -20,7 +20,7 @@ use Patreon\OAuth;
 $access_token = null;
 // Get your "Creator's Refesh Token" from https://www.patreon.com/platform/documentation/clients
 $refresh_token = null;
-$api_client = new Patreon\API($access_token);
+$api_client = new API($access_token);
 
 // Get your campaign data
 $campaign_response = $api_client->fetch_campaign();
@@ -35,7 +35,7 @@ if ($campaign_response->has('errors')) {
     // Get your Client ID and Secret from https://www.patreon.com/platform/documentation/clients
     $client_id = null;
     $client_secret = null;
-    $oauth_client = new Patreon\OAuth($client_id, $client_secret);
+    $oauth_client = new OAuth($client_id, $client_secret);
     // Get a fresher access token
     $tokens = $oauth_client->refresh_token($refresh_token, null);
     if ($tokens['access_token']) {
