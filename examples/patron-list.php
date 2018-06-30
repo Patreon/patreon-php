@@ -62,8 +62,9 @@ while (true) {
         $pledge_data = $pledges_response->get('data')->get($pledge_data_key);
         $pledge_amount = $pledge_data->attribute('amount_cents');
         $patron = $pledge_data->relationship('patron')->resolve($pledges_response);
+	$patron_id = $pledge_data->relationship('patron')->get('id');
         $patron_full_name = $patron->attribute('full_name');
-        echo $patron_full_name . " is pledging " . $pledge_amount . " cents.\n";
+        echo "id: ".$patron_id." - ".$patron_full_name . " is pledging " . $pledge_amount . " cents.\n";
     }
     // get the link to the next page of pledges
     if (!$pledges_response->has('links.next')) {
