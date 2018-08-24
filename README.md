@@ -16,7 +16,7 @@ This will provide you with a `client_id` and a `client_secret`.
 Let's say you wanted to make a "Log In with Patreon" button.
 You've read through [the directions](https://www.patreon.com/platform/documentation/oauth),
 and are trying to implement "Step 2: Handling the OAuth Redirect" with your server.
-The user will be arriving at one of your pages *after* you have sent them to [the authorize page](www.patreon.com/oauth2/authorize) for step 1,
+The user will be arriving at one of your pages *after* you have sent them to the authorize page (at https://www.patreon.com/oauth2/authorize) for step 1,
 so in their query parameters landing on this page,
 they will have a parameter `'code'`.
 
@@ -62,15 +62,16 @@ $pledge = null;
  * Given a resource in the document, you can access its relationships with ->relationship->($relationship_name)
  * or check for a relationship's existence with ->has('relationships.relationship_name')
  */
-if ($user->has('relationships.pledges')) {
+if ($patron->has('relationships.pledges')) {
     /*
      * To look up the full resource that the relationship is referencing,
-     * we have extended [art4/json-api-client/ResourceIdentifier](https://github.com/Art4/json-api-client/blob/master/docs/objects-resource-identifier.md)
+     * we have extended art4/json-api-client/ResourceIdentifier
+     * (https://github.com/Art4/json-api-client/blob/master/docs/objects-resource-identifier.md)
      * with the `->resolve` method.
      * You pass in the original response document, and you get back a full resource,
      * with attributes, relationships, etc.
      */
-    $pledge = $user->relationship('pledges')->get(0)->resolve($user_response);
+    $pledge = $patron->relationship('pledges')->get(0)->resolve($patron_response);
     // Can now check attributes, e.g. $pledge->attribute('amount_cents');
 }
 
