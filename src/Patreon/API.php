@@ -1,6 +1,8 @@
 <?php
 namespace Patreon;
 
+use Art4\JsonApiClient\Input\ResponseStringInput;
+
 require_once("JSONAPI/ResourceItem.php");
 require_once("JSONAPI/ResourceIdentifier.php");
 require_once("JSONAPI/Error.php");
@@ -11,12 +13,12 @@ class API {
 
   public function __construct($access_token) {
     $this->access_token = $access_token;
-    $factory = new \Art4\JsonApiClient\Utils\Factory([
+    $factory = new \Art4\JsonApiClient\V1\Factory([
         'ResourceItem' => 'Patreon\JSONAPI\ResourceItem',
         'ResourceIdentifier' => 'Patreon\JSONAPI\ResourceIdentifier',
         'Error' => 'Patreon\JSONAPI\Error'
     ]);
-    $this->manager = new \Art4\JsonApiClient\Utils\Manager($factory);
+    $this->manager = new \Art4\JsonApiClient\Manager\ErrorAbortManager($factory);
   }
 
   public function fetch_user($parse = true) {
@@ -46,7 +48,7 @@ class API {
       $info = curl_getinfo($ch);
       if ($parse) {
           try {
-              return $this->manager->parse($json_string);
+              return $this->manager->parse(new ResponseStringInput($json_string));
           } catch ( Exception $e ) {
               return $json_string;
           }

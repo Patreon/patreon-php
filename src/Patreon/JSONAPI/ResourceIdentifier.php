@@ -2,18 +2,18 @@
 
 namespace Patreon\JSONAPI;
 
-use \Art4\JsonApiClient\Document;
-use \Art4\JsonApiClient\RelationshipCollectionInterface;
-use \Art4\JsonApiClient\ResourceItemInterface;
-use \Art4\JsonApiClient\AccessInterface;
-use \Art4\JsonApiClient\Utils\FactoryManagerInterface;
+use Art4\JsonApiClient\Accessable;
+use Art4\JsonApiClient\Element;
+use Art4\JsonApiClient\Manager;
+use Art4\JsonApiClient\Serializer\ArraySerializer;
+use Art4\JsonApiClient\V1\RelationshipCollection;
 
-class ResourceIdentifier implements \Art4\JsonApiClient\ResourceIdentifierInterface
+class ResourceIdentifier implements Element, Accessable
 {
     protected $resource_identifier;
     protected $manager;
 
-    public function resolve(Document $document)
+    public function resolve(Accessable $document)
     {
         $all_data = $this->get_all_data_from_document($document);
         foreach ($all_data as $datum) {
@@ -27,15 +27,15 @@ class ResourceIdentifier implements \Art4\JsonApiClient\ResourceIdentifierInterf
         throw new Exception("No resource found with type " . $this->get('type') . " and id " . $this->get('id'));
     }
 
-    private function get_all_data_from_document(Document $document) {
+    private function get_all_data_from_document(Accessable $document) {
         $all_data = [];
         if ($document->has('data')) {
             $data = $document->get('data');
-            if ($data instanceof RelationshipCollectionInterface) {
+            if ($data instanceof RelationshipCollection) {
                 foreach ($data->getKeys() as $indexKey) {
                     array_push($all_data, $data->get($indexKey));
                 }
-            } else if ($data instanceof ResourceItemInterface) {
+            } else if ($data instanceof ResourceItem) {
                 array_push($all_data, $data);
             }
         }
@@ -50,24 +50,10 @@ class ResourceIdentifier implements \Art4\JsonApiClient\ResourceIdentifierInterf
 
     // Implement the rest of the interface as wrappers around the inner $resource_identifier
 
-    public function __construct(FactoryManagerInterface $manager, AccessInterface $parent)
+    public function __construct($data, Manager $manager, Accessable $parent)
 	{
         $this->manager = $manager;
-		$this->resource_identifier = new \Art4\JsonApiClient\ResourceIdentifier($manager, $parent);
-	}
-
-	/**
-	 * @param object $object The error object
-	 *
-	 * @return self
-	 *
-	 * @throws ValidationException
-	 */
-	public function parse($object)
-	{
-        $this->resource_identifier->parse($object);
-
-        return $this;
+        $this->resource_identifier = new \Art4\JsonApiClient\V1\ResourceIdentifier($data, $manager, $parent);
 	}
 
 	/**
@@ -110,6 +96,6 @@ class ResourceIdentifier implements \Art4\JsonApiClient\ResourceIdentifierInterf
      */
     public function asArray($fullArray = false)
     {
-        return $this->resource_identifier->asArray($fullArray);
+        return (new ArraySerializer(['recursive' => $fullArray]))->serialize($this->resource_identifier);
     }
 }

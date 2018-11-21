@@ -52,7 +52,7 @@ $refresh_token = $tokens['refresh_token'];
 $api_client = new API($access_token);
 $patron_response = $api_client->fetch_user();
 /*
- * The $patron_response is now a [art4/json-api-client/Document](https://github.com/Art4/json-api-client/blob/master/docs/objects-document.md)
+ * The $patron_response is now a [Art4\JsonApiClient\V1\Document](https://github.com/Art4/json-api-client/blob/master/docs/objects-document.md)
  * You can access its primary data via ->get('data')
  */
 $patron = $patron_response->get('data');
@@ -65,7 +65,7 @@ $pledge = null;
 if ($patron->has('relationships.pledges')) {
     /*
      * To look up the full resource that the relationship is referencing,
-     * we have extended art4/json-api-client/ResourceIdentifier
+     * we have extended Art4\JsonApiClient\V1\ResourceIdentifier
      * (https://github.com/Art4/json-api-client/blob/master/docs/objects-resource-identifier.md)
      * with the `->resolve` method.
      * You pass in the original response document, and you get back a full resource,

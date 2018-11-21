@@ -2,10 +2,12 @@
 
 namespace Patreon\JSONAPI;
 
-use \Art4\JsonApiClient\AccessInterface;
-use \Art4\JsonApiClient\Utils\FactoryManagerInterface;
+use Art4\JsonApiClient\Accessable;
+use Art4\JsonApiClient\Element;
+use Art4\JsonApiClient\Manager;
+use Art4\JsonApiClient\Serializer\ArraySerializer;
 
-class ResourceItem implements \Art4\JsonApiClient\ResourceItemInterface
+class ResourceItem implements Element, Accessable
 {
     protected $resource_item;
 
@@ -19,23 +21,9 @@ class ResourceItem implements \Art4\JsonApiClient\ResourceItemInterface
 
     // Implement the rest of the interface as wrappers around the inner $resource_identifier
 
-    public function __construct(FactoryManagerInterface $manager, AccessInterface $parent)
+    public function __construct($data, Manager $manager, Accessable $parent)
 	{
-		$this->resource_item = new \Art4\JsonApiClient\ResourceItem($manager, $parent);
-	}
-
-	/**
-	 * @param object $object The error object
-	 *
-	 * @return self
-	 *
-	 * @throws ValidationException
-	 */
-	public function parse($object)
-	{
-        $this->resource_item->parse($object);
-
-        return $this;
+		$this->resource_item = new \Art4\JsonApiClient\V1\ResourceItem($data, $manager, $parent);
 	}
 
 	/**
@@ -78,6 +66,6 @@ class ResourceItem implements \Art4\JsonApiClient\ResourceItemInterface
      */
     public function asArray($fullArray = false)
     {
-        return $this->resource_item->asArray($fullArray);
+        return (new ArraySerializer(['recursive' => $fullArray]))->serialize($this->resource_item);
     }
 }
