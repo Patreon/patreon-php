@@ -77,7 +77,9 @@ if ($patron->has('relationships.pledges')) {
 
 /*
  $patron will have the authenticated user's user data, and
- $pledge will have their patronage data.
+ $pledge will have their patronage data to a creator that they are pledging to.
+ Note that you might have to iterate over $patron->relationship('pledges') to find the campaign associated
+ with a particular client if the patron is pledging to multiple creators.
  Typically, you will save the relevant pieces of this data to your database,
  linked with their user account on your site,
  so your site can customize its experience based on their Patreon data.
