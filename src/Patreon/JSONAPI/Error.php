@@ -2,34 +2,22 @@
 
 namespace Patreon\JSONAPI;
 
-use \Art4\JsonApiClient\AccessInterface;
-use \Art4\JsonApiClient\Utils\FactoryManagerInterface;
+use Art4\JsonApiClient\Accessable;
+use Art4\JsonApiClient\Element;
+use Art4\JsonApiClient\Manager;
+use Art4\JsonApiClient\Serializer\ArraySerializer;
 
-class Error implements \Art4\JsonApiClient\ErrorInterface
+class Error implements Element, Accessable
 {
     protected $error;
 
-    public function __construct(FactoryManagerInterface $manager, AccessInterface $parent)
-	{
-		$this->error = new \Art4\JsonApiClient\Error($manager, $parent);
-	}
-
-	/**
-	 * @param object $object The error object
-	 *
-	 * @return self
-	 *
-	 * @throws ValidationException
-	 */
-	public function parse($object)
+    public function __construct($data, Manager $manager, Accessable $parent)
 	{
         // Coerce codes to strings
-        $modified_object = clone $object;
-        $modified_object->code = strval($object->code);
+        $modified_object = clone $data;
+        $modified_object->code = strval($data->code);
 
-        $this->error->parse($modified_object);
-
-        return $this;
+        $this->error = \Art4\JsonApiClient\V1\Error($modified_object, $manager, $parent);
 	}
 
 	/**
@@ -72,6 +60,6 @@ class Error implements \Art4\JsonApiClient\ErrorInterface
      */
     public function asArray($fullArray = false)
     {
-        return $this->error->asArray($fullArray);
+        return (new ArraySerializer(['recursive' => $fullArray]))->serialize($this->error);
     }
 }

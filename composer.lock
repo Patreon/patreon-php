@@ -1,30 +1,30 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5f7c32f1653685ff60029c37aa7d5b9",
+    "content-hash": "35bf0e3d7f3c916df3bb64de076f5f5d",
     "packages": [
         {
             "name": "art4/json-api-client",
-            "version": "0.9",
+            "version": "0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Art4/json-api-client.git",
-                "reference": "a14b97d3fec57b2b23fea2af20d0e16f6d581057"
+                "reference": "779362ef6a578e50b35bde731cd8d4e4d3d166a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Art4/json-api-client/zipball/a14b97d3fec57b2b23fea2af20d0e16f6d581057",
-                "reference": "a14b97d3fec57b2b23fea2af20d0e16f6d581057",
+                "url": "https://api.github.com/repos/Art4/json-api-client/zipball/779362ef6a578e50b35bde731cd8d4e4d3d166a8",
+                "reference": "779362ef6a578e50b35bde731cd8d4e4d3d166a8",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5 || ^7.0"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.4.3 || ^6.0"
+                "phpunit/phpunit": "^5.4.3 || ^6.0 || ^7.0"
             },
             "type": "library",
             "autoload": {
@@ -34,7 +34,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL3"
+                "GPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -54,7 +54,7 @@
                 "reader",
                 "validator"
             ],
-            "time": "2017-06-06T14:04:30+00:00"
+            "time": "2018-11-07T10:38:07+00:00"
         }
     ],
     "packages-dev": [],
