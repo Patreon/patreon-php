@@ -1,5 +1,5 @@
 {
-    "name": "patreon/patreon",
+    "name": "codebard/patreonphp",
     "description": "Interact with the Patreon API via OAuth",
     "license": "MIT",
     "authors": [
