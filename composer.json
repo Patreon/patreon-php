@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "codebard\\": "src/"
+            "codebard\\": "patreon-php/src/"
         }
     }
 }
