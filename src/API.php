@@ -1,5 +1,5 @@
 <?php
-namespace Patreon;
+namespace codebard;
 
 class API {
   private $access_token;
