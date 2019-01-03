@@ -1,5 +1,5 @@
 <?php
-namespace Patreon;
+namespace codebard;
 
 class OAuth {
   private $client_id;
