@@ -34,9 +34,9 @@ require_once __DIR__.'/vendor/autoload.php';
  
 use Codebard\API;
 use Codebard\OAuth;
- 
-$client_id = 'gxCANDrmBECTGsvdMj5hZ3c5J_b6jQh5K7M0nrKbc7Yi5fVEhxZrNKN-C3i5P0Mv';      // Replace with your data
-$client_secret = 'kdH8is07jybdrqVCLhAc4Siq5DPIBO7dVZu1VwzBYu2FpgVQ49SW2PxHRDnKEVSM';  // Replace with your data
+
+$client_id = '';      // Replace with your data
+$client_secret = '';  // Replace with your data
 
 $oauth_client = new OAuth($client_id, $client_secret);
 
