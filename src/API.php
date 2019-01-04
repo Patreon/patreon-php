@@ -4,9 +4,11 @@ namespace codebard;
 class API {
   private $access_token;
   private $manager;
+  public $api_return_format;
 
   public function __construct($access_token) {
     $this->access_token = $access_token;
+	$this->api_return_format = 'array';
   }
 
   public function fetch_user() {
@@ -30,11 +32,7 @@ class API {
     return $this->get_data($url, $parse);
   }
 
-  public function get_data($suffix, $format = false) {
-	  
-	  if ( !$format ) {
-		  $format = 'array';
-	  }
+  public function get_data($suffix) {
 	  
 	  // Caching logic or var will go in here
 	  
@@ -47,13 +45,13 @@ class API {
           return $json_string;
       }
 	  
-	  if( $format == 'array' ) {
+	  if( $this->api_return_format == 'array' ) {
 		  $return = json_decode($json_string, true);
 	  }
-	  if( $format == 'object' ) {
+	  if( $this->api_return_format == 'object' ) {
 		  $return = json_decode($json_string);
 	  }
-	  if( $format == 'json' ) {
+	  if( $this->api_return_format == 'json' ) {
 		  $return = $json_string;
 	  }
 	  
