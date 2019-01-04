@@ -10,15 +10,15 @@ class API {
   }
 
   public function fetch_user() {
-    return $this->__get_data("current_user", $parse);
+    return $this->get_data("current_user", $parse);
   }
 
   public function fetch_campaign_and_patrons() {
-    return $this->__get_data("current_user/campaigns?include=rewards,creator,goals,pledges", $parse);
+    return $this->get_data("current_user/campaigns?include=rewards,creator,goals,pledges", $parse);
   }
 
   public function fetch_campaign() {
-    return $this->__get_data("current_user/campaigns?include=rewards,creator,goals", $parse);
+    return $this->get_data("current_user/campaigns?include=rewards,creator,goals", $parse);
   }
 
   public function fetch_page_of_pledges($campaign_id, $page_size, $cursor = null) {
@@ -27,19 +27,33 @@ class API {
       $escaped_cursor = urlencode($cursor);
       $url = $url . "&page%5Bcursor%5D={$escaped_cursor}";
     }
-    return $this->__get_data($url, $parse);
+    return $this->get_data($url, $parse);
   }
 
-  private function __get_data($suffix) {
+  public function get_data($suffix, $format = 'array') {
+	  
+	  // Caching logic or var will go in here
+	  
       $ch = $this->__create_ch($suffix);
       $json_string = curl_exec($ch);
       $info = curl_getinfo($ch);
 	  
       // don't try to parse a 500-class error, as it's likely not JSON
-      if ($info['http_code'] >= 500) {
+      if ( $info['http_code'] >= 500 ) {
           return $json_string;
       }
-      return json_decode($json_string, true);
+	  
+	  if( $format == 'array' ) {
+		  $return = json_decode($json_string, true);
+	  }
+	  if( $format == 'object' ) {
+		  $return = json_decode($json_string);
+	  }
+	  if( $format == 'json' ) {
+		  $return = $json_string;
+	  }
+	  
+      return $return;
   }
 
   private function __create_ch($suffix) {
