@@ -30,7 +30,11 @@ class API {
     return $this->get_data($url, $parse);
   }
 
-  public function get_data($suffix, $format = 'array') {
+  public function get_data($suffix, $format = false) {
+	  
+	  if ( !$format ) {
+		  $format = 'array';
+	  }
 	  
 	  // Caching logic or var will go in here
 	  
