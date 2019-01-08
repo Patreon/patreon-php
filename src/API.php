@@ -3,6 +3,7 @@ namespace codebard;
 
 class API {
   private $access_token;
+  private $manager;
   public $api_return_format;
 
   public function __construct($access_token) {
@@ -11,7 +12,7 @@ class API {
   }
 
   public function fetch_user() {
-    return $this->get_data('identity?'.urlencode('include=memberships'));
+    return $this->get_data("current_user");
   }
 
   public function fetch_campaign_and_patrons() {
@@ -58,20 +59,12 @@ class API {
   }
 
   private function __create_ch($suffix) {
-	  
-    $api_endpoint = "https://www.patreon.com/api/oauth2/v2/" . $suffix;
+    $api_endpoint = "https://api.patreon.com/oauth2/api/" . $suffix;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_endpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	
-	$headers = array(
-		'Authorization' => 'Bearer ' . $this->access_token,
-		'User-Agent' => 'Patreon-PHP, version 1.0.0b, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
-	);
-	
+    $authorization_header = "Authorization: Bearer " . $this->access_token;
     curl_setopt($ch, CURLOPT_HTTPHEADER, array($authorization_header));
-	
-	return $ch;
-	
+    return $ch;
   }
 }
