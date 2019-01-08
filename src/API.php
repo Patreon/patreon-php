@@ -3,7 +3,7 @@ namespace codebard;
 
 class API {
   private $access_token;
-  private $manager;
+  public static $curl_handler = -1;
   public $api_return_format;
 
   public function __construct($access_token) {
@@ -59,12 +59,19 @@ class API {
   }
 
   private function __create_ch($suffix) {
+	 
+	// Caches the current curl handler and returns it for reuse for better performance
+	if ( self::$curl_handler != -1 ) {
+		return self::$curl_handler;
+	}
+	  
     $api_endpoint = "https://api.patreon.com/oauth2/api/" . $suffix;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_endpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $authorization_header = "Authorization: Bearer " . $this->access_token;
     curl_setopt($ch, CURLOPT_HTTPHEADER, array($authorization_header));
-    return $ch;
+	return self::$curl_handler = $ch;
+	
   }
 }
