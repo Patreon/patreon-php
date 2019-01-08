@@ -12,15 +12,15 @@ class API {
   }
 
   public function fetch_user() {
-    return $this->get_data("current_user", $parse);
+    return $this->get_data("current_user");
   }
 
   public function fetch_campaign_and_patrons() {
-    return $this->get_data("current_user/campaigns?include=rewards,creator,goals,pledges", $parse);
+    return $this->get_data("current_user/campaigns?include=rewards,creator,goals,pledges");
   }
 
   public function fetch_campaign() {
-    return $this->get_data("current_user/campaigns?include=rewards,creator,goals", $parse);
+    return $this->get_data("current_user/campaigns?include=rewards,creator,goals");
   }
 
   public function fetch_page_of_pledges($campaign_id, $page_size, $cursor = null) {
@@ -29,7 +29,7 @@ class API {
       $escaped_cursor = urlencode($cursor);
       $url = $url . "&page%5Bcursor%5D={$escaped_cursor}";
     }
-    return $this->get_data($url, $parse);
+    return $this->get_data($url);
   }
 
   public function get_data($suffix) {
