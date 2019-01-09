@@ -45,7 +45,7 @@ $oauth_client = new OAuth($client_id, $client_secret);
 $redirect_uri = "http://pat-php-dev.codebard.com";
 
 $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
-. $client_id . '&redirect_uri=' . urlencode($redirect_uri);
+. $client_id . '&redirect_uri=' . urlencode($redirect_uri).'&scope=identity%20identity'.urlencode('[email]');
 
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 echo '<br>';
