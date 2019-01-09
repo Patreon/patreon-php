@@ -31,8 +31,7 @@ class API {
 	}
 
 	public function fetch_user() {
-		return $this->get_data('identity');
-		//?include=memberships&fields'.urlencode('[user]').'=email,first_name,full_name,image_url,last_name,thumb_url,url,vanity,is_email_verified&fields'.urlencode('[member]').'=currently_entitled_amount_cents,lifetime_support_cents,last_charge_status,patron_status,last_charge_date,pledge_relationship_start
+		return $this->get_data('identity?include=memberships&fields'.urlencode('[user]').'=email,first_name,full_name,image_url,last_name,thumb_url,url,vanity,is_email_verified&fields'.urlencode('[member]').'=currently_entitled_amount_cents,lifetime_support_cents,last_charge_status,patron_status,last_charge_date,pledge_relationship_start');
 	}
 
 	public function fetch_campaign_and_patrons() {
@@ -122,11 +121,11 @@ class API {
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 
 		$headers = array(
-			'Authorization' => 'Bearer ' . $this->access_token,
-			'User-Agent' => 'Patreon-Wordpress, version ' . PATREON_WORDPRESS_VERSION . ', platform ' . php_uname('s') . '-' . php_uname( 'r' ),
+			'Authorization: Bearer ' . $this->access_token,
+			'User-Agent: Patreon-Wordpress, version ' . PATREON_WORDPRESS_VERSION . ', platform ' . php_uname('s') . '-' . php_uname( 'r' ),
 		);
 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array($headers));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		return $ch;
 
 	}
