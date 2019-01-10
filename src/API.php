@@ -75,9 +75,7 @@ class API {
 
 		$ch = $this->__create_ch($api_request);
 		$json_string = curl_exec($ch);
-
 		$info = curl_getinfo($ch);
-
 		curl_close($ch);
 
 		// don't try to parse a 500-class error, as it's likely not JSON
@@ -116,10 +114,7 @@ class API {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $api_request);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		// Below line is for dev purposes - remove before release
-		curl_setopt($ch, CURLOPT_HEADER, 1);
-
+		
 		$headers = array(
 			'Authorization: Bearer ' . $this->access_token,
 			'User-Agent: Patreon-Wordpress, version ' . PATREON_WORDPRESS_VERSION . ', platform ' . php_uname('s') . '-' . php_uname( 'r' ),
