@@ -32,8 +32,8 @@ _(If you are doing something other than the "Log In with Patreon" flow, please s
 
 require_once __DIR__.'/vendor/autoload.php';
  
-use Codebard\API;
-use Codebard\OAuth;
+use Patreon\API;
+use Patreon\OAuth;
 
 $client_id = '';      // Replace with your data
 $client_secret = '';  // Replace with your data
@@ -43,7 +43,7 @@ $oauth_client = new OAuth($client_id, $client_secret);
 
 // There will a simple login link generator from a new class here - instead of the makeshift code below
 
-$redirect_uri = "http://pat-php-dev.codebard.com";
+$redirect_uri = ""; // This is where the user should land after returning from Patreon
 
 $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
 . $client_id . '&redirect_uri=' . urlencode($redirect_uri);
