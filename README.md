@@ -81,6 +81,14 @@ $href .= $state_parameters;
 
 // Simply echoing it here. You can present the login link/button in any other way.
 
+// Scopes! You must request the scopes you need to have the access token.
+// In this case, we are requesting the user's identity (basic user info), user's email
+// For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
+
+$scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
+
+$href .= $scope_parameters;
+
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 
 // Up to this part we handled the way to prepare a login link for users to log in via Patreon oAuth using API v2. From this point on starts the processing of a logged in user or user returning from Patreon oAuth.
