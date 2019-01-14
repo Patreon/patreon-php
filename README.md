@@ -1,5 +1,5 @@
 # patreon-php
-Interact with the Patreon API via OAuth. (This is a development package that will be removed later. Please do not use this)
+Interact with the Patreon API via OAuth.
 
 ## Installation
 
