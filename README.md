@@ -40,13 +40,20 @@ $client_secret = '';  // Replace with your data
 
 $oauth_client = new OAuth($client_id, $client_secret);
 
-
 // There will a simple login link generator from a new class here - instead of the makeshift code below
 
 $redirect_uri = "http://pat-php-dev.codebard.com";
 
 $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
 . $client_id . '&redirect_uri=' . urlencode($redirect_uri).'&scope=identity%20identity'.urlencode('[email]');
+
+// Scopes! You must request the scopes you need to have the access token.
+// In this case, we are requesting the user's identity (basic user info), user's email
+// For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
+
+$scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
+
+$href .= $scope_parameters;
 
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 echo '<br>';
