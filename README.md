@@ -1,4 +1,5 @@
 # patreon-php
+
 Interact with the Patreon API via OAuth.
 
 ## Installation
@@ -7,12 +8,14 @@ Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
 
 ## Usage
 ### Step 1. Get your client_id and client_secret
+
 Visit the [Patreon platform documentation page](https://www.patreon.com/platform/documentation)
 while logged in as a Patreon creator to register your client.
 
 This will provide you with a `client_id` and a `client_secret`.
 
 ### Step 2. Use this plugin in your code
+
 Let's say you wanted to make a "Log In with Patreon" button.
 You've read through [the directions](https://www.patreon.com/platform/documentation/oauth),
 and are trying to implement "Step 2: Handling the OAuth Redirect" with your server.
