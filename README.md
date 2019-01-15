@@ -15,7 +15,7 @@ This will provide you with a `client_id` and a `client_secret`.
 Let's say you wanted to make a "Log In with Patreon" button.
 You've read through [the directions](https://www.patreon.com/platform/documentation/oauth),
 and are trying to implement "Step 2: Handling the OAuth Redirect" with your server.
-The user will be arriving at one of your pages *after* you have sent them to [the authorize page](www.patreon.com/oauth2/authorize) for step 1,
+The user will be arriving at one of your pages *after* you have sent them to the authorize page (at https://www.patreon.com/oauth2/authorize) for step 1,
 so in their query parameters landing on this page,
 they will have a parameter `'code'`.
 
@@ -39,9 +39,6 @@ $client_secret = '';  // Replace with your data
 
 $oauth_client = new OAuth($client_id, $client_secret);
 
-
-// There will a simple login link generator from a new class here - instead of the makeshift code below
-
 $redirect_uri = ""; // This is where the user should land after returning from Patreon
 
 $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
@@ -49,7 +46,6 @@ $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id='
 
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 echo '<br>';
-
 
 if ( $_GET['code'] != '' ) {
 		
@@ -63,7 +59,7 @@ if ( $_GET['code'] != '' ) {
 	
 	// Return from the API can be received in either array, object or JSON formats by setting the return format. It defaults to array if not specifically set. Specifically setting return format is not necessary. Below is shown as an example of having the return parsed as an object. If there is anyone using Art4 JSON parser lib or any other parser, they can just set the API return to JSON and then have the return parsed by that parser
 	
-	$api_client->api_return_format = 'object';
+	$api_client->api_return_format = 'array';
 	
 	// Now get the current user:
 	$patron_response = $api_client->fetch_user();
