@@ -56,7 +56,7 @@ $scope_params = '&scope=identity%20identity'.urlencode('[email]'); // You have t
 // Generate the oAuth url
 
 $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
-. $client_id . $scope_params . '&redirect_uri=' . urlencode($redirect_uri);
+. $client_id . '&redirect_uri=' . urlencode($redirect_uri);
 
 // You can send an array of vars to Patreon and receive them back as they are. Ie, state vars to set the user state, app state or any other info which should be sent back and forth.
 
@@ -79,8 +79,6 @@ $href .= $state_parameters;
 
 // Now place the url into a login link. Below is a very simple login link with just text. in assets/images folder, there is a button image made with official Patreon assets (login_with_patreon.png). You can also use this image as the inner html of the <a> tag instead of the text provided here
 
-// Simply echoing it here. You can present the login link/button in any other way.
-
 // Scopes! You must request the scopes you need to have the access token.
 // In this case, we are requesting the user's identity (basic user info), user's email
 // For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
@@ -88,6 +86,8 @@ $href .= $state_parameters;
 $scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 
 $href .= $scope_parameters;
+
+// Simply echoing it here. You can present the login link/button in any other way.
 
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 

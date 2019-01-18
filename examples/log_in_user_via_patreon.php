@@ -4,8 +4,8 @@
 
 require_once __DIR__.'/vendor/autoload.php';
  
-use Codebard\API;
-use Codebard\OAuth;
+use Patreon\API;
+use Patreon\OAuth;
 
 $client_id = '';      // Replace with your data
 $client_secret = '';  // Replace with your data
@@ -42,6 +42,14 @@ $href .= $state_parameters;
 
 // Now place the url into a login link. Below is a very simple login link with just text. in assets/images folder, there is a button image made with official Patreon assets (login_with_patreon.php). You can also use this image as the inner html of the <a> tag instead of the text provided here
 
+// Scopes! You must request the scopes you need to have the access token.
+// In this case, we are requesting the user's identity (basic user info), user's email
+// For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
+
+$scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
+
+$href .= $scope_parameters;
+
 // Simply echoing it here. You can present the login link/button in any other way.
 
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
@@ -59,7 +67,6 @@ if ( $_GET['code'] != '' ) {
 	// Here, you should save the access and refresh tokens for this user somewhere. Conceptually this is the point either you link an existing user of your app with his/her Patreon account, or, if the user is a new user, create an account for him or her in your app, log him/her in, and then link this new account with the Patreon account. More or less a social login logic applies here. 
 	
 }
-
 
 // After linking an existing account or a new account with Patreon by saving and matching the tokens for a given user, you can then read the access token (from the database or whatever resource), and then just check if the user is logged into Patreon by using below code. Code from down below can be placed wherever in your app, it doesnt need to be in the redirect_uri at which the Patreon user ends after oAuth. You just need the $access_token for the current user and thats it.
 

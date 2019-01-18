@@ -11,8 +11,8 @@
  this snippet is a good example of how to do so.
  */
 
-require_once('vendor/patreon/patreon/src/patreon.php');
-
+require_once __DIR__.'/vendor/autoload.php';
+ 
 use Patreon\API;
 use Patreon\OAuth;
 
@@ -20,6 +20,7 @@ use Patreon\OAuth;
 $access_token = null;
 // Get your "Creator's Refesh Token" from https://www.patreon.com/platform/documentation/clients
 $refresh_token = null;
+
 $api_client = new API($access_token);
 
 // Get your campaign data

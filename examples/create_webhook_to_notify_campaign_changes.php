@@ -1,7 +1,11 @@
 <?php
 
-// This example shows you how to create a webhook at Patreon API to notify you when you have any member changes in your campaign
+require_once __DIR__.'/vendor/autoload.php';
+ 
+use Patreon\API;
+use Patreon\OAuth;
 
+// This example shows you how to create a webhook at Patreon API to notify you when you have any member changes in your campaign
 
 // Create a client first, using your creator's access token
 $api_client = new API('YOURCREATORSACCESSTOKEN');
