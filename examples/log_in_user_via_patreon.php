@@ -47,6 +47,8 @@ $href .= $state_parameters;
 // For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
 // You can only have access to data identified with the scopes you asked. Read more at https://docs.patreon.com/#scopes
 
+// Lets request identity of the user, and email.
+
 $scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 
 $href .= $scope_parameters;
