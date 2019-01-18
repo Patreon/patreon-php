@@ -49,7 +49,7 @@ $min_cents = '500';
 
 // Lets request identity of the user, and email.
 
-$scope_params = '&scope=identity%20identity[email]';
+$scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 
 // Generate the unified flow url - this is different from oAuth login url. oAuth login url just processes oAuth login. 
 // Unified flow will do everything.
