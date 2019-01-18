@@ -15,7 +15,7 @@ $api_client = new API('YOURCREATORSACCESSTOKEN');
 $campaigns_response = $api_client->fetch_campaigns();
 
 // Get the campaign id
-$campaign_id = $patron_response['data'][0]['id'];
+$campaign_id = $campaigns_response['data'][0]['id'];
 // If you have more than one campaign in the return, you have to iterate to find the one you want. If return format is array (as is default), just iterate the array and get the id you want
 
 // Now, set the API client's cURL request method to POST because webhooks endpoint requires POST for creating webhooks. No need to do that for other requests since API client defaults to GET. But if you set this for a specific instance of the client to anything other than GET, you need to revert it back to default by re-setting it to GET after you make your POST call
@@ -52,7 +52,7 @@ $api_client->curl_postfields = json_encode( $api_client->curl_postfields );
 
 // Do the request by directly using get_data function that contacts the API and use the webhooks endpoint
 
-$webhook_response = $api_client1->get_data('webhooks');
+$webhook_response = $api_client->get_data('webhooks');
 
 // If all went well, you will receive a response as depicted in the API documentation here
 // https://docs.patreon.com/#triggers-v2

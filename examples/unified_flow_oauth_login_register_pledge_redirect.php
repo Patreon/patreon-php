@@ -68,7 +68,7 @@ $state['final_redirect'] = 'http://mydomain.com/locked-content';
 
 // Prepare state var. It must be json_encoded, base64_encoded and url encoded to be safe in regard to any odd chars. When you receive it back, decode it in reverse of the below order - urldecode, base64_decode, json_decode (as array)
 
-$state_parameters = '&state=' . urlencode( base64_encode( json_encode( $state ) );
+$state_parameters = '&state=' . urlencode( base64_encode( json_encode( $state ) ) );
 
 // Append it to the url 
 
