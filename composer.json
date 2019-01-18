@@ -1,5 +1,5 @@
 {
-    "name": "patreon/patreon",
+    "name": "codebard/patreon-php",
     "description": "Interact with the Patreon API via OAuth",
     "license": "MIT",
     "authors": [
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Patreon\\": "src/"
+            "Codebard\\": "src/"
         }
     }
 }
