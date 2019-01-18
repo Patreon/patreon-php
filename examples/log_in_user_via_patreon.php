@@ -34,11 +34,11 @@ $state['final_page'] = 'http://mydomain.com/thank_you';
 // Add any number of vars you need to this array by $state['key'] = variable value
 
 // Prepare state var. It must be json_encoded, base64_encoded and url encoded to be safe in regard to any odd chars
-$state_parameter = '&state=' . urlencode( base64_encode( json_encode( $state ) );
+$state_parameters = '&state=' . urlencode( base64_encode( json_encode( $state ) ) );
 
 // Append it to the url 
 
-$href .= $state_paramter;
+$href .= $state_parameters;
 
 // Now place the url into a login link. Below is a very simple login link with just text. in assets/images folder, there is a button image made with official Patreon assets (login_with_patreon.php). You can also use this image as the inner html of the <a> tag instead of the text provided here
 
