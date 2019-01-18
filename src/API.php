@@ -1,5 +1,5 @@
 <?php
-namespace codebard;
+namespace Patreon;
 
 class API {
 	
@@ -48,8 +48,6 @@ class API {
 	
 	public function fetch_campaign_details($campaign_id) {
 		// Fetches details about a campaign - the membership tiers, benefits, creator and goals.  Requires the current user to be creator of the campaign or requires a creator access token
-		echo "campaigns/{$campaign_id}?include=benefits,creator,goals,tiers";
-		echo '<br>';
 		return $this->get_data("campaigns/{$campaign_id}?include=benefits,creator,goals,tiers");
 	}
 	

@@ -1,11 +1,11 @@
 {
-    "name": "codebard/patreon-php",
-    "description": "Interact with the Patreon API via OAuth (This fork under codebard vendor is a development package and will be removed. Please do not use this.",
+    "name": "patreon/patreon",
+    "description": "Interact with the Patreon API via OAuth",
     "license": "MIT",
     "authors": [
         {
-            "name": "David Kettler",
-            "email": "david@patreon.com"
+            "name": "Patreon",
+            "email": "platform-team@patreon.com"
         }
     ],
     "minimum-stability": "dev",
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Codebard\\": "src/"
+            "Patreon\\": "src/"
         }
     }
 }
