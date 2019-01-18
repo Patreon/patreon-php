@@ -2,7 +2,6 @@
 Interact with the Patreon API via OAuth.
 
 ## Installation
-
 Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
 
 ## Usage
@@ -24,69 +23,53 @@ _(If you are doing something other than the "Log In with Patreon" flow, please s
 
 ```php
 <?php
-
+ 
 /*
  * Use the following,
  * or if you installed via Composer, it should already be required via autoloader
  */
-require_once('vendor/patreon/patreon/src/patreon.php');
 
+require_once __DIR__.'/vendor/autoload.php';
+ 
 use Patreon\API;
 use Patreon\OAuth;
 
-$client_id = null;      // Replace with your data
-$client_secret = null;  // Replace with your data
+$client_id = '';      // Replace with your data
+$client_secret = '';  // Replace with your data
 
 $oauth_client = new OAuth($client_id, $client_secret);
 
-// Replace http://localhost:5000/oauth/redirect with your own uri
-$redirect_uri = "http://localhost:5000/oauth/redirect";
-/*
- * Make sure that you're using this snippet as Step 2 of the OAuth flow: https://www.patreon.com/platform/documentation/oauth
- * so that you have the 'code' query parameter.
- */
-$tokens = $oauth_client->get_tokens($_GET['code'], $redirect_uri);
-$access_token = $tokens['access_token'];
-$refresh_token = $tokens['refresh_token'];
+$redirect_uri = ""; // This is where the user should land after returning from Patreon
 
-$api_client = new API($access_token);
-$patron_response = $api_client->fetch_user();
-/*
- * The $patron_response is now a [art4/json-api-client/Document](https://github.com/Art4/json-api-client/blob/master/docs/objects-document.md)
- * You can access its primary data via ->get('data')
- */
-$patron = $patron_response->get('data');
-// Can now check attributes, e.g. $patron->attribute('full_name');
-$pledge = null;
-/*
- * Given a resource in the document, you can access its relationships with ->relationship->($relationship_name)
- * or check for a relationship's existence with ->has('relationships.relationship_name')
- */
-if ($patron->has('relationships.pledges')) {
-    /*
-     * To look up the full resource that the relationship is referencing,
-     * we have extended art4/json-api-client/ResourceIdentifier
-     * (https://github.com/Art4/json-api-client/blob/master/docs/objects-resource-identifier.md)
-     * with the `->resolve` method.
-     * You pass in the original response document, and you get back a full resource,
-     * with attributes, relationships, etc.
-     */
-    $pledge = $patron->relationship('pledges')->get(0)->resolve($patron_response);
-    // Can now check attributes, e.g. $pledge->attribute('amount_cents');
+$href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
+. $client_id . '&redirect_uri=' . urlencode($redirect_uri);
+
+echo '<a href="'.$href.'">Click here to login via Patreon</a>';
+echo '<br>';
+
+if ( $_GET['code'] != '' ) {
+		
+	$tokens = $oauth_client->get_tokens($_GET['code'], $redirect_uri);
+	$access_token = $tokens['access_token'];
+	$refresh_token = $tokens['refresh_token'];
+	
+	// There will be some advice for devs on how to save their tokens and match it to their users here
+
+	$api_client = new API($access_token);
+	
+	// Return from the API can be received in either array, object or JSON formats by setting the return format. It defaults to array if not specifically set. Specifically setting return format is not necessary. Below is shown as an example of having the return parsed as an object. If there is anyone using Art4 JSON parser lib or any other parser, they can just set the API return to JSON and then have the return parsed by that parser
+	
+	$api_client->api_return_format = 'array';
+	
+	// Now get the current user:
+	$patron_response = $api_client->fetch_user();
+	
+	echo '<pre>';
+	print_r($patron_response);
+	echo '</pre>';
+	
 }
 
-/*
- $patron will have the authenticated user's user data, and
- $pledge will have their patronage data to a creator that they are pledging to.
- Note that you might have to iterate over $patron->relationship('pledges') to find the campaign associated
- with a particular client if the patron is pledging to multiple creators.
- Typically, you will save the relevant pieces of this data to your database,
- linked with their user account on your site,
- so your site can customize its experience based on their Patreon data.
- You will also want to save their $access_token and $refresh_token to your database,
- linked to their user account on your site,
- so that you can refresh their Patreon data on your own schedule.
- */
 
 ?>
 ```
