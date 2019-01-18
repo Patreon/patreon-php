@@ -6,6 +6,11 @@
 
 // We assume you put the access token into an $access_token var
 
+require_once __DIR__.'/vendor/autoload.php';
+ 
+use Patreon\API;
+use Patreon\OAuth;
+
 // Start new Patreon API client
 $api_client = new API($access_token);
 

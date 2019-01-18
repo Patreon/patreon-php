@@ -26,8 +26,8 @@ A ready-made 'Unlock with Patreon' image created per official design guidelines 
 
 require_once __DIR__.'/vendor/autoload.php';
  
-use Codebard\API;
-use Codebard\OAuth;
+use Patreon\API;
+use Patreon\OAuth;
 
 $client_id = '';      // Replace with your data
 $client_secret = '';  // Replace with your data
