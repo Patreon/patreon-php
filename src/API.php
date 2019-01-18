@@ -1,5 +1,5 @@
 <?php
-namespace Patreon;
+namespace Codebard;
 
 class API {
 	
