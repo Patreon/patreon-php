@@ -31,21 +31,32 @@ class API {
 	}
 
 	public function fetch_user() {
-		return $this->get_data('identity');
-		//?include=memberships&fields'.urlencode('[user]').'=email,first_name,full_name,image_url,last_name,thumb_url,url,vanity,is_email_verified&fields'.urlencode('[member]').'=currently_entitled_amount_cents,lifetime_support_cents,last_charge_status,patron_status,last_charge_date,pledge_relationship_start
+		// Fetches details of the current token user. 
+		return $this->get_data('identity?include=memberships&fields'.urlencode('[user]').'=email,first_name,full_name,image_url,last_name,thumb_url,url,vanity,is_email_verified&fields'.urlencode('[member]').'=currently_entitled_amount_cents,lifetime_support_cents,last_charge_status,patron_status,last_charge_date,pledge_relationship_start');
 	}
 
-	public function fetch_campaign_and_patrons() {
-		return $this->get_data("current_user/campaigns?include=rewards,creator,goals,pledges");
+	public function fetch_campaigns() {
+		// Fetches the list of campaigns of the current token user. Requires the current user to be creator of the campaign or requires a creator access token
+		return $this->get_data("campaigns");
+	}
+	
+	public function fetch_campaign_details($campaign_id) {
+		// Fetches details about a campaign - the membership tiers, benefits, creator and goals.  Requires the current user to be creator of the campaign or requires a creator access token
+		echo "campaigns/{$campaign_id}?include=benefits,creator,goals,tiers";
+		echo '<br>';
+		return $this->get_data("campaigns/{$campaign_id}?include=benefits,creator,goals,tiers");
+	}
+	
+	public function fetch_member_details($member_id) {
+		// Fetches details about a member from a campaign. Member id can be acquired from fetch_page_of_members_from_campaign
+		// currently_entitled_tiers is the best way to get info on which membership tiers the user is entitled to.  Requires the current user to be creator of the campaign or requires a creator access token.
+		return $this->get_data("members/{$member_id}?include=address,campaign,user,currently_entitled_tiers");
 	}
 
-	public function fetch_campaign() {
-		return $this->get_data("current_user/campaigns?include=rewards,creator,goals");
-	}
-
-	public function fetch_page_of_pledges($campaign_id, $page_size, $cursor = null) {
+	public function fetch_page_of_members_from_campaign($campaign_id, $page_size, $cursor = null) {
 		
-		$url = "campaigns/{$campaign_id}/pledges?page%5Bcount%5D={$page_size}";
+		// Fetches a given page of members with page size and cursor point. Can be used to iterate through lists of members for a given campaign. Campaign id can be acquired from fetch_campaigns or from a saved campaign id variable.  Requires the current user to be creator of the campaign or requires a creator access token
+		$url = "campaigns/{$campaign_id}/members?page%5Bcount%5D={$page_size}";
 		
 		if ($cursor != null) {
 			
@@ -61,8 +72,8 @@ class API {
 	public function get_data($suffix) {
 		
 		// Construct request:
-		$api_request = "https://www.patreon.com/api/oauth2/v2/" . $suffix;
-
+		$api_request = $this->api_endpoint . $suffix;
+		
 		// This identifies a unique request
 		$api_request_hash = md5($api_request);
 
@@ -76,9 +87,7 @@ class API {
 
 		$ch = $this->__create_ch($api_request);
 		$json_string = curl_exec($ch);
-
 		$info = curl_getinfo($ch);
-
 		curl_close($ch);
 
 		// don't try to parse a 500-class error, as it's likely not JSON
@@ -119,14 +128,14 @@ class API {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 		// Below line is for dev purposes - remove before release
-		curl_setopt($ch, CURLOPT_HEADER, 1);
+		// curl_setopt($ch, CURLOPT_HEADER, 1);
 
 		$headers = array(
-			'Authorization' => 'Bearer ' . $this->access_token,
-			'User-Agent' => 'Patreon-Wordpress, version ' . PATREON_WORDPRESS_VERSION . ', platform ' . php_uname('s') . '-' . php_uname( 'r' ),
+			'Authorization: Bearer ' . $this->access_token,
+			'User-Agent: Patreon-PHP, version 0.3.2, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
 		);
 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array($headers));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		return $ch;
 
 	}
