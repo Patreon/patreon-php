@@ -12,6 +12,12 @@ class API {
 	// The cache for request results - an array that matches md5 of the unique API request to the returned result
 	public static $request_cache;
 	
+	// Sets the reqeuest method for cURL
+	public $api_request_method = 'GET';
+	
+	// Holds POST for cURL for requests other than GET
+	public $curl_postfields = false;
+	
 	// Sets the format the return from the API is parsed and returned - array (assoc), object, or raw JSON
 	public $api_return_format;
 	
@@ -124,6 +130,14 @@ class API {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $api_request);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		
+		if ( $this->api_request_method != 'GET' AND $this->curl_postfields ) {
+			curl_setopt( $ch, CURLOPT_POSTFIELDS, $this->curl_postfields );
+		}
+		
+		// Set the cURL request method - works for all of them
+		
+		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $this->api_request_method );
 
 		// Below line is for dev purposes - remove before release
 		// curl_setopt($ch, CURLOPT_HEADER, 1);
