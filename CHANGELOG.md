@@ -1,7 +1,5 @@
 # 1.0.0
 
-## Fixes
-
 * Library moved to use Patreon API v2 endpoints and calls
 * Scopes added to examples and API url functions
 * Autoloading has been moved to PSR4
