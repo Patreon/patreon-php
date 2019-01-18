@@ -47,8 +47,6 @@ $client_secret = '';  // Replace with your data
 
 $redirect_uri = "http://mydomain.com/patreon_login";
 
-// Scope parameters - these are important - with Patreon API v2, you must specify the scopes which you will later be using, when you are sending the user to oAuth login flows. You can only have access to data identified with the scopes you listed below. Read more at https://docs.patreon.com/#scopes
-
 // Lets request identity of the user, and email.
 
 $scope_params = '&scope=identity%20identity'.urlencode('[email]'); // You have to urlencode special characters
@@ -82,6 +80,7 @@ $href .= $state_parameters;
 // Scopes! You must request the scopes you need to have the access token.
 // In this case, we are requesting the user's identity (basic user info), user's email
 // For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
+// You can only have access to data identified with the scopes you asked. Read more at https://docs.patreon.com/#scopes
 
 $scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 

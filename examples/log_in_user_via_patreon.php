@@ -45,6 +45,7 @@ $href .= $state_parameters;
 // Scopes! You must request the scopes you need to have the access token.
 // In this case, we are requesting the user's identity (basic user info), user's email
 // For example, if you do not request email scope while logging the user in, later you wont be able to get user's email via /identity endpoint when fetching the user details
+// You can only have access to data identified with the scopes you asked. Read more at https://docs.patreon.com/#scopes
 
 $scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 
