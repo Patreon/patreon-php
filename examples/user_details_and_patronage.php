@@ -14,9 +14,6 @@ use Patreon\OAuth;
 // Start new Patreon API client
 $api_client = new API($access_token);
 
-// Set format for API returns
-$api_client->api_return_format = 'array';
-
 // Fetch the user's details
 $current_member = $api_client->fetch_user();
 

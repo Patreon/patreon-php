@@ -79,7 +79,8 @@ $api_client = new API($access_token);
 
 // Return from the API can be received in either array, object or JSON formats by setting the return format. It defaults to array if not specifically set. Specifically setting return format is not necessary. Below is shown as an example of having the return parsed as an object. If there is anyone using Art4 JSON parser lib or any other parser, they can just set the API return to JSON and then have the return parsed by that parser
 
-$api_client->api_return_format = 'array';
+// You dont need the below line if you simply want the result as an array
+$api_client->api_return_format = 'object';
 
 // Now get the current user:
 $patron_response = $api_client->fetch_user();
