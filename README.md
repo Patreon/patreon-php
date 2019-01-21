@@ -13,7 +13,6 @@ https://docs.patreon.com/#apiv2-oauth
 If you have any questions or issues, please visit our developer forum at https://www.patreondevelopers.com/
 
 ## Installation
-
 Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
 
 ## Usage
