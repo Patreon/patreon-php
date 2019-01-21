@@ -124,7 +124,7 @@ class API {
 	}
 
 	private function __create_ch($api_request) {
-	  
+
 		// This function creates a cURL handler for a given URL. In our case, this includes entire API request, with endpoint and parameters
 
 		$ch = curl_init();
@@ -167,5 +167,6 @@ class API {
 		return self::$request_cache[$api_request_hash] = $result;
 		
 	}
-  
+
+	
 }

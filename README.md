@@ -1,6 +1,16 @@
 # patreon-php
 
-Interact with the Patreon API via OAuth. (This is a development package that will be removed later. Please do not use this)
+Interact with the Patreon API via OAuth.
+
+## Important notice about updating to 1.0.0 from earlier versions
+
+Patreon PHP library version 1.0.0 moves on to Patreon's v2 API, which is not compatible with old v1 calls. It also removes Art4 JSON library. Therefore directly upgrading from older versions to 1.0.0 would break compatibility of your installation. API v1 is going to be deprecated probably within 2019, so its important to get your integration compatible with API v2. Transition is easy - just translate your v1 calls to v2 calls using the documentation, and have your oAuth authorization include scopes. With API v2, you can only get access to the scopes you requested during authorization, and you need to ask for the data you want through includes. 
+
+If you were using Art4 library before, you can separately install it and feed the return from API calls to Art4 library after getting it as JSON from this library. This will make your existing code that uses Art4 library compatible. However note that you will need to track Art4 library updates and resulting compatibility issues yourself. 
+
+https://docs.patreon.com/#apiv2-oauth
+
+If you have any questions or issues, please visit our developer forum at https://www.patreondevelopers.com/
 
 ## Installation
 
@@ -95,7 +105,7 @@ echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 if ( $_GET['code'] != '' ) {
 	
 	$oauth_client = new OAuth($client_id, $client_secret);	
-		
+
 	$tokens = $oauth_client->get_tokens($_GET['code'], $redirect_uri);
 	
 	$access_token = $tokens['access_token'];
