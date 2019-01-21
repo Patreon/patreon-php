@@ -54,7 +54,7 @@ $scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 // Generate the unified flow url - this is different from oAuth login url. oAuth login url just processes oAuth login. 
 // Unified flow will do everything.
 
-$href = 'https://www.patreon.com/oauth2/become-patron?response_type=code&min_cents=' . $min_cents . '&client_id=' . $client_id . $scope_params . '&redirect_uri=' . $redirect_uri;
+$href = 'https://www.patreon.com/oauth2/become-patron?response_type=code&min_cents=' . $min_cents . '&client_id=' . $client_id . $scope_parameters . '&redirect_uri=' . $redirect_uri;
 
 // You can send an array of vars to Patreon and receive them back as they are. Ie, state vars to set the user state, app state or any other info which should be sent back and forth. 
 
