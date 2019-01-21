@@ -95,7 +95,7 @@ echo '<a href="'.$href.'">Click here to login via Patreon</a>';
 if ( $_GET['code'] != '' ) {
 	
 	$oauth_client = new OAuth($client_id, $client_secret);	
-	
+
 	$tokens = $oauth_client->get_tokens($_GET['code'], $redirect_uri);
 	
 	$access_token = $tokens['access_token'];
