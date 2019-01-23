@@ -1,6 +1,6 @@
 {
     "name": "patreon/patreon",
-    "description": "Interact with the Patreon API via OAuth",
+    "description": "Interact with the Patreon API via OAuth.",
     "license": "MIT",
     "authors": [
         {
