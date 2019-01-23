@@ -35,8 +35,9 @@ class OAuth {
     curl_setopt($ch, CURLOPT_URL, $api_endpoint);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT, "Patreon-PHP, version 0.3.2, platform ".php_uname('s').'-'.php_uname('r'));
+    curl_setopt($ch, CURLOPT_USERAGENT, "Patreon-PHP, version 1.0.0, platform ".php_uname('s').'-'.php_uname('r'));
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     return json_decode(curl_exec($ch), true);
   }
+
 }
