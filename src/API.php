@@ -158,7 +158,7 @@ class API {
 		
 		// If the cache array is larger than 50, snip the first item. This may be increased in future
 		
-		if ( count( self::$request_cache ) > 50  ) {
+		if ( !empty(self::$request_cache) && (count( self::$request_cache ) > 50)  ) {
 			array_shift( self::$request_cache );
 		}
 		
