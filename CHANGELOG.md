@@ -1,5 +1,6 @@
 # 1.0.0
 
+* Increased minimum PHP version to 7.0 
 * Library moved to use Patreon API v2 endpoints and calls
 * Scopes added to examples and API url functions
 * Autoloading has been moved to PSR4
@@ -13,6 +14,19 @@
 * Webhook write example added - creates a webhook to notify your local app when there are any membership changes in your campaign
 * Examples made more detailed and comprehensive
 * Readme example reformatted, updated to API V2
+* Add unit testing (via phpunit)
+* Add static analysis (via Psalm)
+* **Security:** Force server-side HTTP request to use TLS (and check certificates)
+  * This explicitly chooses the most secure options available
+  * Future effort: Migrate to Guzzle instead of using cURL?
+* Throw exceptions if cURL fails
+* **Performance and Security:** Use BLAKE2b instead of MD5 for request caching
+  * Prevents accidental collisions, which is a real risk since the
+    effective cost of attacking MD5 is 2^18
+  * Only if ext/sodium is installed (always should be for PHP 7.2+)
+* Security: Internally, use HiddenString objects to encapsulate API tokens and OAuth credentials
+  * This helps hide sensitive data from stack traces
+  * This keeps users' client secrets and access tokens out of tickets
 
 # 0.3.2
 
