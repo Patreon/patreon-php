@@ -1,6 +1,6 @@
 # patreon-php
 
-Interact with the Patreon API via OAuth.
+Interact with the Patreon API via OAuth. Requires PHP 7.
 
 ## Important notice about updating to 1.0.0 from earlier versions
 
