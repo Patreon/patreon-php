@@ -93,6 +93,19 @@ $scope_parameters = '&scope=identity%20identity'.urlencode('[email]');
 
 $href .= $scope_parameters;
 
+/* Alternative, cleaner way of building $href:
+$scope = ['identity', 'identity[email]'];
+$href = 'https://www.patreon.com/oauth2/authorize?' . http_build_query(
+    [
+	'response_type' => 'code',
+	'client_id' => $client_id,
+	'redirect_uri' => $redirect_uri,
+	'state' => base64_encode(json_encode($state)),
+	'scope' => implode(' ', $scope)
+    ]
+);
+*/
+
 // Simply echoing it here. You can present the login link/button in any other way.
 
 echo '<a href="'.$href.'">Click here to login via Patreon</a>';
