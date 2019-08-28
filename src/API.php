@@ -16,14 +16,14 @@ class API
      *
      * @var HiddenString $access_token
      */
-	private $access_token;
+    private $access_token;
 
     /**
      * Holds the api endpoint used
      *
      * @var string $api_endpoint
      */
-	public $api_endpoint;
+    public $api_endpoint;
 
     /**
      * The cache for request results - an array that matches hash of the unique
@@ -31,39 +31,39 @@ class API
      *
      * @var array $request_cache
      */
-	public static $request_cache;
-	
-	// Sets the reqeuest method for cURL
+    public static $request_cache;
+
+    // Sets the reqeuest method for cURL
     /** @var string $api_request_method */
-	public $api_request_method = 'GET';
-	
-	// Holds POST for cURL for requests other than GET
+    public $api_request_method = 'GET';
+
+    // Holds POST for cURL for requests other than GET
     /** @var string|array|bool $curl_postfields */
-	public $curl_postfields = false;
-	
-	// Sets the format the return from the API is parsed and returned - array (assoc), object, or raw JSON
+    public $curl_postfields = false;
+
+    // Sets the format the return from the API is parsed and returned - array (assoc), object, or raw JSON
     /** @var string $api_return_format */
-	public $api_return_format;
+    public $api_return_format;
 
     /**
      * API constructor.
      * @param string|HiddenString $access_token
      */
-	public function __construct($access_token)
+    public function __construct($access_token)
     {
         if (!($access_token instanceof HiddenString)) {
             $access_token = new HiddenString($access_token);
         }
-		// Set the access token
-		$this->access_token = $access_token;
+        // Set the access token
+        $this->access_token = $access_token;
 
-		// Set API endpoint to use. Its currently V2
-		$this->api_endpoint = "https://www.patreon.com/api/oauth2/v2/";
-		
-		// Set default return format - this can be changed by the app using the lib by setting it 
-		// after initialization of this class
-		$this->api_return_format = 'array';
-	}
+        // Set API endpoint to use. Its currently V2
+        $this->api_endpoint = "https://www.patreon.com/api/oauth2/v2/";
+
+        // Set default return format - this can be changed by the app using the lib by setting it
+        // after initialization of this class
+        $this->api_return_format = 'array';
+    }
 
     /**
      * Fetches details of the current token user.
@@ -73,7 +73,7 @@ class API
      * @throws CurlException
      * @throws \SodiumException
      */
-	public function fetch_user()
+    public function fetch_user()
     {
         return $this->get_data('identity', [
             'include' => 'memberships',
@@ -92,7 +92,7 @@ class API
                 ])
             ]
         ]);
-	}
+    }
 
     /**
      * Fetches the list of campaigns of the current token user.
@@ -105,10 +105,10 @@ class API
      * @throws CurlException
      * @throws \SodiumException
      */
-	public function fetch_campaigns()
+    public function fetch_campaigns()
     {
-		return $this->get_data("campaigns");
-	}
+        return $this->get_data("campaigns");
+    }
 
     /**
      * Fetches details about a campaign - the membership tiers, benefits, creator and goals.
@@ -122,7 +122,7 @@ class API
      * @throws CurlException
      * @throws \SodiumException
      */
-	public function fetch_campaign_details($campaign_id)
+    public function fetch_campaign_details($campaign_id)
     {
         return $this->get_data('campaigns/' . $campaign_id, [
                 'include' => implode(',', [
@@ -133,7 +133,7 @@ class API
                 ])
             ]
         );
-	}
+    }
 
     /**
      * Fetches details about a member from a campaign. Member id can be acquired from
@@ -149,9 +149,9 @@ class API
      * @throws CurlException
      * @throws \SodiumException
      */
-	public function fetch_member_details($member_id)
+    public function fetch_member_details($member_id)
     {
-		return $this->get_data('members/' . $member_id, [
+        return $this->get_data('members/' . $member_id, [
             'include' => implode(',', [
                 'address',
                 'campaign',
@@ -159,7 +159,7 @@ class API
                 'currently_entitled_tiers'
             ])
         ]);
-	}
+    }
 
     /**
      * Fetches a given page of members with page size and cursor point.
@@ -177,7 +177,7 @@ class API
      * @throws CurlException
      * @throws \SodiumException
      */
-	public function fetch_page_of_members_from_campaign($campaign_id, $page_size, $cursor = null)
+    public function fetch_page_of_members_from_campaign($campaign_id, $page_size, $cursor = null)
     {
         $args = [
             'page' => [
@@ -188,7 +188,7 @@ class API
             $args['page']['cursor'] = $cursor;
         }
         return $this->get_data('campaigns/' . $campaign_id . '/members', $args);
-	}
+    }
 
     /**
      * @param string $suffix
@@ -198,49 +198,49 @@ class API
      * @throws CurlException
      * @throws \SodiumException
      */
-	public function get_data(string $suffix, array $params = [])
+    public function get_data(string $suffix, array $params = [])
     {
-		// Construct request:
-		$api_request = $this->api_endpoint . $suffix;
-		if (!empty($params)) {
-		    $api_request .= '?' . http_build_query($params);
+        // Construct request:
+        $api_request = $this->api_endpoint . $suffix;
+        if (!empty($params)) {
+            $api_request .= '?' . http_build_query($params);
         }
-		
-		// This identifies a unique request
+
+        // This identifies a unique request
         if (extension_loaded('sodium')) {
             $api_request_hash = bin2hex(sodium_crypto_generichash($api_request));
         } else {
             $api_request_hash = md5($api_request);
         }
 
-		// Check if this request exists in the cache and if so, return it directly -
+        // Check if this request exists in the cache and if so, return it directly -
         // avoids repeated requests to API in the same page run for same request string
-		if (isset(self::$request_cache[$api_request_hash])) {
-			return self::$request_cache[$api_request_hash];		
-		}
+        if (isset(self::$request_cache[$api_request_hash])) {
+            return self::$request_cache[$api_request_hash];
+        }
 
-		// Request is new - actually perform the request
-		$ch = $this->__create_ch($api_request);
-		$json_string = curl_exec($ch);
-		if (!is_string($json_string)) {
+        // Request is new - actually perform the request
+        $ch = $this->__create_ch($api_request);
+        $json_string = curl_exec($ch);
+        if (!is_string($json_string)) {
             throw new CurlException('No response returned from Patreon server');
         }
-		$info = curl_getinfo($ch);
-		curl_close($ch);
+        $info = curl_getinfo($ch);
+        curl_close($ch);
 
-		// don't try to parse a 500-class error, as it's likely not JSON
-		if ($info['http_code'] >= 500) {
-		  return self::add_to_request_cache($api_request_hash, $json_string);
-		}
-		
-		// don't try to parse a 400-class error, as it's likely not JSON
-		if ($info['http_code'] >= 400) {
-		  return self::add_to_request_cache($api_request_hash, $json_string);
-		}
+        // don't try to parse a 500-class error, as it's likely not JSON
+        if ($info['http_code'] >= 500) {
+            return self::add_to_request_cache($api_request_hash, $json_string);
+        }
 
-		// Parse the return according to the format set by api_return_format variable
+        // don't try to parse a 400-class error, as it's likely not JSON
+        if ($info['http_code'] >= 400) {
+            return self::add_to_request_cache($api_request_hash, $json_string);
+        }
+
+        // Parse the return according to the format set by api_return_format variable
         // Then add this new request to the request cache and return it
-		switch ($this->api_return_format) {
+        switch ($this->api_return_format) {
             case 'array':
                 return self::add_to_request_cache(
                     $api_request_hash,
@@ -259,48 +259,48 @@ class API
             default:
                 throw new APIException('Unknown return format:' . $this->api_return_format);
         }
-	}
+    }
 
     /**
      * @param string $api_request
      * @return resource
      * @throws CurlException
      */
-	private function __create_ch($api_request)
+    private function __create_ch($api_request)
     {
-		// This function creates a cURL handler for a given URL.
+        // This function creates a cURL handler for a given URL.
         // In our case, this includes entire API request, with endpoint and parameters
 
-		$ch = curl_init();
+        $ch = curl_init();
         if (!is_resource($ch)) {
             throw new CurlException('Could not initialize cURL handle');
         }
-		curl_setopt($ch, CURLOPT_URL, $api_request);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		
-		if ($this->api_request_method !== 'GET' && $this->curl_postfields) {
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $this->curl_postfields);
-		}
+        curl_setopt($ch, CURLOPT_URL, $api_request);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-		// Strict TLS verification
+        if ($this->api_request_method !== 'GET' && $this->curl_postfields) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->curl_postfields);
+        }
+
+        // Strict TLS verification
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
-		// Set the cURL request method - works for all of them
-		
-		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $this->api_request_method );
+        // Set the cURL request method - works for all of them
 
-		// Below line is for dev purposes - remove before release
-		// curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $this->api_request_method );
 
-		$headers = array(
-			'Authorization: Bearer ' . $this->access_token,
-			'User-Agent: Patreon-PHP, version 1.0.0, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
-		);
+        // Below line is for dev purposes - remove before release
+        // curl_setopt($ch, CURLOPT_HEADER, 1);
 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		return $ch;
-	}
+        $headers = array(
+            'Authorization: Bearer ' . $this->access_token,
+            'User-Agent: Patreon-PHP, version 1.0.0, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
+        );
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        return $ch;
+    }
 
     /**
      * This function manages the array that is used as the cache for API
@@ -312,15 +312,15 @@ class API
      * @param string|array|object $result
      * @return string|array|object
      */
-	public static function add_to_request_cache($api_request_hash, $result)
+    public static function add_to_request_cache($api_request_hash, $result)
     {
-		// If the cache array is larger than 50, snip the first item.
+        // If the cache array is larger than 50, snip the first item.
         // This may be increased in future
-		if (!empty(self::$request_cache) && (count( self::$request_cache ) > 50)) {
-			array_shift( self::$request_cache );
-		}
-		
-		// Add the new request and return it
-		return self::$request_cache[$api_request_hash] = $result;
-	}
+        if (!empty(self::$request_cache) && (count( self::$request_cache ) > 50)) {
+            array_shift( self::$request_cache );
+        }
+
+        // Add the new request and return it
+        return self::$request_cache[$api_request_hash] = $result;
+    }
 }
