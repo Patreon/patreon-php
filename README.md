@@ -55,19 +55,11 @@ $client_id = '';      // Replace with your data
 $client_secret = '';  // Replace with your data
 
 // Set the redirect url where the user will land after oAuth. That url is where the access code will be sent as a _GET parameter. This may be any url in your app that you can accept and process the access code and login
-<<<<<<< HEAD
 
 // In this case, say, /patreon_login request uri
 
 $redirect_uri = "http://mydomain.com/patreon_login";
 
-=======
-
-// In this case, say, /patreon_login request uri
-
-$redirect_uri = "http://mydomain.com/patreon_login";
-
->>>>>>> upstream/master
 // Generate the oAuth url
 
 $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
