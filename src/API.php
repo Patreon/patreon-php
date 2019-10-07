@@ -157,7 +157,7 @@ class API {
 		// This function manages the array that is used as the cache for API requests. What it does is to accept a md5 hash of entire query string (GET, with url, endpoint and options and all) and then add it to the request cache array 
 		
 		// If the cache array is larger than 50, snip the first item. This may be increased in future
-
+		
 		if ( !empty(self::$request_cache) && (count( self::$request_cache ) > 50)  ) {
 			array_shift( self::$request_cache );
 		}
