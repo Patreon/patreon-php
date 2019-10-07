@@ -17,7 +17,8 @@ NOTE: This library is made to be compatible with the maximum possible variety of
 [soatok's fork](https://github.com/soatok/patreon-php) with PHP 7.x, PHPunit, Psalm, BLAKE2b instead of MD5
 
 ## Installation
-Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
+
+Currently the repo at packagist is at 0.3.x and API v1 only, whereas the one at Github is at 1.0.0 and API v2 due to compatibility reasons for older installations which were done via composer. Until we sync the packagist version with the Github version, please use this repo by cloning it from Github, or upload it to your environment via file transfer.
 
 ## Usage
 
