@@ -12,8 +12,13 @@ https://docs.patreon.com/#apiv2-oauth
 
 If you have any questions or issues, please visit our developer forum at https://www.patreondevelopers.com/
 
+NOTE: This library is made to be compatible with the maximum possible variety of different infrastructures, PHP versions and environments in order to cover a majority of potential integrations. If you would like to use more specialized versions of this lib with different amenities and additions/dependencies to better suit your environment, below is a list. If you would like your fork added to this list, please contact us [at the forums](https://www.patreondevelopers.com/).
+
+[soatok's fork](https://github.com/soatok/patreon-php) with PHP 7.x, PHPunit, Psalm, BLAKE2b instead of MD5
+
 ## Installation
-Get the plugin from [Packagist](https://packagist.org/packages/patreon/patreon)
+
+Currently the repo at packagist is at 0.3.x and API v1 only, whereas the one at Github is at 1.0.0 and API v2 due to compatibility reasons for older installations which were done via composer. Until we sync the packagist version with the Github version, please use this repo by cloning it from Github, or downloading and uploading it to your environment via file transfer.
 
 ## Usage
 
