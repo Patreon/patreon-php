@@ -73,18 +73,20 @@ class API {
 		
 	}
 
-	public function get_data($suffix) {
-		
+	public function get_data( $suffix, $args = array() ) {
+				
 		// Construct request:
 		$api_request = $this->api_endpoint . $suffix;
 		
 		// This identifies a unique request
-		$api_request_hash = md5($api_request);
+		$api_request_hash = md5( $this->access_token . $api_request );
 
 		// Check if this request exists in the cache and if so, return it directly - avoids repeated requests to API in the same page run for same request string
 
-		if ( isset( self::$request_cache[$api_request_hash] ) ) {
-			return self::$request_cache[$api_request_hash];		
+		if ( !isset( $args['skip_read_from_cache'] ) ) {
+			if ( isset( self::$request_cache[$api_request_hash] ) ) {
+				return self::$request_cache[$api_request_hash];		
+			}
 		}
 
 		// Request is new - actually perform the request 
@@ -144,7 +146,7 @@ class API {
 
 		$headers = array(
 			'Authorization: Bearer ' . $this->access_token,
-			'User-Agent: Patreon-PHP, version 1.0.0, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
+			'User-Agent: Patreon-PHP, version 1.0.1, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
 		);
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
