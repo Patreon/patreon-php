@@ -10,7 +10,7 @@ class API {
 	public $api_endpoint;
 	
 	// The cache for request results - an array that matches md5 of the unique API request to the returned result
-	public static $request_cache;
+	public $request_cache;
 	
 	// Sets the reqeuest method for cURL
 	public $api_request_method = 'GET';
@@ -73,18 +73,20 @@ class API {
 		
 	}
 
-	public function get_data($suffix) {
-		
+	public function get_data( $suffix, $args = array() ) {
+				
 		// Construct request:
 		$api_request = $this->api_endpoint . $suffix;
 		
 		// This identifies a unique request
-		$api_request_hash = md5($api_request);
+		$api_request_hash = md5( $this->access_token . $api_request );
 
 		// Check if this request exists in the cache and if so, return it directly - avoids repeated requests to API in the same page run for same request string
 
-		if ( isset( self::$request_cache[$api_request_hash] ) ) {
-			return self::$request_cache[$api_request_hash];		
+		if ( !isset( $args['skip_read_from_cache'] ) ) {
+			if ( isset( $this->request_cache[$api_request_hash] ) ) {
+				return $this->request_cache[$api_request_hash];		
+			}
 		}
 
 		// Request is new - actually perform the request 
@@ -96,12 +98,12 @@ class API {
 
 		// don't try to parse a 500-class error, as it's likely not JSON
 		if ( $info['http_code'] >= 500 ) {
-		  return self::add_to_request_cache($api_request_hash, $json_string);
+		  return $this->add_to_request_cache($api_request_hash, $json_string);
 		}
 		
 		// don't try to parse a 400-class error, as it's likely not JSON
 		if ( $info['http_code'] >= 400 ) {
-		  return self::add_to_request_cache($api_request_hash, $json_string);
+		  return $this->add_to_request_cache($api_request_hash, $json_string);
 		}
 
 		// Parse the return according to the format set by api_return_format variable
@@ -119,7 +121,7 @@ class API {
 		}
 
 		// Add this new request to the request cache and return it
-		return self::add_to_request_cache($api_request_hash, $return);
+		return $this->add_to_request_cache($api_request_hash, $return);
 
 	}
 
@@ -144,7 +146,7 @@ class API {
 
 		$headers = array(
 			'Authorization: Bearer ' . $this->access_token,
-			'User-Agent: Patreon-PHP, version 1.0.0, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
+			'User-Agent: Patreon-PHP, version 1.0.2, platform ' . php_uname('s') . '-' . php_uname( 'r' ),
 		);
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -152,19 +154,19 @@ class API {
 
 	}
 
-	public static function add_to_request_cache( $api_request_hash, $result ) {
+	public function add_to_request_cache( $api_request_hash, $result ) {
 		
 		// This function manages the array that is used as the cache for API requests. What it does is to accept a md5 hash of entire query string (GET, with url, endpoint and options and all) and then add it to the request cache array 
 		
 		// If the cache array is larger than 50, snip the first item. This may be increased in future
 		
-		if ( !empty(self::$request_cache) && (count( self::$request_cache ) > 50)  ) {
-			array_shift( self::$request_cache );
+		if ( !empty($this->request_cache) && (count( $this->request_cache ) > 50)  ) {
+			array_shift( $this->request_cache );
 		}
 		
 		// Add the new request and return it
 		
-		return self::$request_cache[$api_request_hash] = $result;
+		return $this->request_cache[$api_request_hash] = $result;
 		
 	}
 

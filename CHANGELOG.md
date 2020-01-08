@@ -1,3 +1,11 @@
+# 1.0.2
+
+* Made caching function and variable static to accommodate sites/apps that use more than one client or do backend processing of 
+multiple different patrons using saved tokens. If you were directly calling cache function or variable in your app, you will need to change those calls from static to non static
+* Added access token to hash mechanism that creates hashes for request cache
+* Added args to get_data function that calls the API
+* Implemented a 'skip_read_from_cache' var to skip reading a request from cache in case it exists in the cache
+
 # 1.0.0
 
 * Library moved to use Patreon API v2 endpoints and calls
