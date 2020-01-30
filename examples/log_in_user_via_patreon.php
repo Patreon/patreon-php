@@ -14,12 +14,11 @@ $client_secret = '';  // Replace with your data
 
 // In this case, say, /patreon_login request uri
 
-$redirect_uri = "http://mydomain.com/patreon_login";
+$redirect_uri = "http://mydomain.com/patreon_login"; // Replace http://mydomain.com/patreon_login with the url at your site which is going to receive users returning from Patreon confirmation 
 
 // Generate the oAuth url
 
-$href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
-. $client_id . '&redirect_uri=' . urlencode($redirect_uri);
+$href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' . $client_id . '&redirect_uri=' . urlencode($redirect_uri);
 
 // You can send an array of vars to Patreon and receive them back as they are. Ie, state vars to set the user state, app state or any other info which should be sent back and forth. 
 
@@ -29,7 +28,7 @@ $href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id='
 
 $state = array();
 
-$state['final_page'] = 'http://mydomain.com/thank_you';
+$state['final_page'] = 'http://mydomain.com/thank_you'; // Replace http://mydomain.com/thank_you with the url that has your thank you page
 
 // Add any number of vars you need to this array by $state['key'] = variable value
 

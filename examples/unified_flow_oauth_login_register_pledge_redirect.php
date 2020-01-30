@@ -36,7 +36,7 @@ $client_secret = '';  // Replace with your data
 
 // In this case, say, /patreon_login request uri. This doesnt need to be your final redirect uri. You can send your final redirect uri in your state vars to Patreon, receive it back, and then send your user to that final redirect uri
 
-$redirect_uri = "http://mydomain.com/patreon_login";
+$redirect_uri = "http://mydomain.com/patreon_login"; // Replace http://mydomain.com/patreon_login with the url at your site which is going to receive users returning from Patreon confirmation
 
 // Min cents is the amount in cents that you locked your content or feature with. Say, if a feature or content requires $5 to access in your site/app, then you send 500 as min cents variable. Patreon will ask the user to pledge $5 or more.
 
@@ -60,9 +60,7 @@ $href = 'https://www.patreon.com/oauth2/become-patron?response_type=code&min_cen
 
 $state = array();
 
-$state['final_redirect'] = 'http://mydomain.com/locked-content';
-
-// Or, http://mydomain.com/premium-feature. Or any url at which a locked feature or content will be unlocked after the user is verified to become a qualifying member 
+$state['final_redirect'] = 'http://mydomain.com/locked-content'; // Replace http://mydomain.com/locked-content with the url of the content to be unlocked at your site, or whever you want the user to be directed to after returning from Patreon login/confirmation
 
 // Add any number of vars you need to this array by $state['key'] = variable value
 
@@ -98,7 +96,6 @@ if ( $_GET['code'] != '' ) {
 	// Here you can decode the state var returned from Patreon, and use the final redirect url to redirect your user to the relevant unlocked content or feature in your site/app.
 	
 }
-
 
 // After linking an existing account or a new account with Patreon by saving and matching the tokens for a given user, you can then read the access token (from the database or whatever resource), and then just check if the user is logged into Patreon by using below code. Code from down below can be placed wherever in your app, it doesnt need to be in the redirect_uri at which the Patreon user ends after oAuth. You just need the $access_token for the current user and thats it.
 
