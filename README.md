@@ -24,8 +24,7 @@ Currently the repo at packagist is at 0.3.x and API v1 only, whereas the one at 
 
 ### Step 1. Get your client_id and client_secret
 
-Visit the [Patreon platform documentation page](https://www.patreon.com/platform/documentation)
-while logged in as a Patreon creator to register your client.
+Visit the [Patreon platform documentation page](https://www.patreon.com/platform/documentation) while logged in as a Patreon creator to register your client.
 
 This will provide you with a `client_id` and a `client_secret`.
 
@@ -59,12 +58,11 @@ $client_secret = '';  // Replace with your data
 
 // In this case, say, /patreon_login request uri
 
-$redirect_uri = "http://mydomain.com/patreon_login";
+$redirect_uri = "http://mydomain.com/patreon_login"; // Replace http://mydomain.com/patreon_login with the url at your site which is going to receive users returning from Patreon confirmation
 
 // Generate the oAuth url
 
-$href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' 
-. $client_id . '&redirect_uri=' . urlencode($redirect_uri);
+$href = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=' . $client_id . '&redirect_uri=' . urlencode($redirect_uri);
 
 // You can send an array of vars to Patreon and receive them back as they are. Ie, state vars to set the user state, app state or any other info which should be sent back and forth.
 
@@ -74,7 +72,7 @@ $state = array();
 
 // Lets make it a thank you page
 
-$state['final_page'] = 'http://mydomain.com/thank_you';
+$state['final_page'] = 'http://mydomain.com/thank_you'; // Replace http://mydomain.com/thank_you with the url that has your thank you page
 
 // Add any number of vars you need to this array by $state['YOURKEY'] = VARIABLE
 
