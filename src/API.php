@@ -60,7 +60,7 @@ class API {
 	public function fetch_page_of_members_from_campaign($campaign_id, $page_size, $cursor = null) {
 		
 		// Fetches a given page of members with page size and cursor point. Can be used to iterate through lists of members for a given campaign. Campaign id can be acquired from fetch_campaigns or from a saved campaign id variable.  Requires the current user to be creator of the campaign or requires a creator access token
-		$url = "campaigns/{$campaign_id}/members?page%5Bcount%5D={$page_size}";
+		$url = "campaigns/{$campaign_id}/members?page%5Bsize%5D={$page_size}";
 		
 		if ($cursor != null) {
 			
