@@ -73,6 +73,17 @@ class API {
 		
 	}
 
+	public function fetch_posts($campaign_id, $records) {
+		//Fetches all of the posts from the given campaign ID. The number of records to retrive must be specified. Does not collect the content of the posts
+		//Only retrives the paid / public status, publish date, title and url.
+		return $this->get_data("campaigns/{$campaign_id}/posts?fields%5Bpost%5D=is_paid,is_public,published_at,title,url&page%5Bcount%5D={$records}"); 
+	}
+
+	public function fetch_single_post($post_id) {
+		//Fetches a specific post based on $post_id which can be retrieved by using the fetch_posts function
+		return $this->get_data("posts/{$post_id}?fields%5Bpost%5D=content,embed_data,embed_url,is_paid,is_public,published_at,title,url");
+	}
+	
 	public function get_data( $suffix, $args = array() ) {
 				
 		// Construct request:
