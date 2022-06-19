@@ -57,6 +57,16 @@ class API {
 		return $this->get_data("members/{$member_id}?include=address,campaign,user,currently_entitled_tiers");
 	}
 
+	public function fetch_posts($campaign_id) {
+		//Fetches all of the posts from the given campaign ID
+		return $this->get_data("campaigns/{$campaign_id}/posts"); 
+	}
+
+	public function fetch_single_post($post_id) {
+		//Fetches a specific post based on $post_id which can be retrieved by using the fetch_posts function
+		return $this->get_data("posts/{$post_id}")
+	}
+	
 	public function fetch_page_of_members_from_campaign($campaign_id, $page_size, $cursor = null) {
 		
 		// Fetches a given page of members with page size and cursor point. Can be used to iterate through lists of members for a given campaign. Campaign id can be acquired from fetch_campaigns or from a saved campaign id variable.  Requires the current user to be creator of the campaign or requires a creator access token
